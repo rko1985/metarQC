@@ -1,9 +1,15 @@
 import re
 
-metar = "KLIT 260053Z 16006KT 10SM SCT120 26/19 A2985 RMK AO2 SLP107 OCNL LTGIC DSNT NE-W AND W CB DSNT NE T02560189"
+metar = "KUNV 261153Z 20003KT 10SM BKN060 14/12 A2981"
+
+metarsplit = ['','']
 
 if("RMK" in metar):
     metarsplit = metar.split("RMK")
+
+if "RMK" not in metar:
+    metarsplit[0] = metar
+    metarsplit[1] = ''
 
 frequencies = ['FRQ', 'OCNL', 'CONS']
 directions = ['N','NE','E','SE','S','SW','W','NW','UNKN','ALQDS']
@@ -37,6 +43,10 @@ if "LTG" in metarsplit[1]:
             print("Error in LTG remark " + metar)
             print(ltg_errors)
             ltg_errors = [0,0,0,0,0,0,0]
+        if "TS" in metarsplit[0]:
+            print("LTG DSNT, TS in present wx " + metar)
+        if "CB" in metarsplit[0]:
+            print("LTG DSNT, CB in cloud layer " + metar)
 
     #OHD lighting[0] length should be 7
     if(len(lightningOHD) > 0):
@@ -57,6 +67,10 @@ if "LTG" in metarsplit[1]:
             print("Error in LTG remark " + metar)
             print(ltg_errors)
             ltg_errors = [0,0,0,0,0,0,0]
+        if "TS" not in metarsplit[0]:
+            print("LTG OHD, TS not in present wx " + metar)
+        if "CB" not in metarsplit[0]:
+            print("LTG OHD, CB not in cloud layer " + metar)
 
     #VC lightning[0] should be length 9
     if(len(lightningVC) > 0):
@@ -81,6 +95,10 @@ if "LTG" in metarsplit[1]:
             print("Error in LTG remark " + metar)
             print(ltg_errors)
             ltg_errors = [0,0,0,0,0,0,0]
+        if "TS" not in metarsplit[0]:
+            print("LTG VC, TS not in present wx " + metar)
+        if "CB" not in metarsplit[0]:
+            print("LTG VC, CB not in cloud layer " + metar)
 
 if "LTG" in metarsplit[1]:
     if len(lightningDSNT) == 0 and len(lightningOHD) == 0 and len(lightningVC) == 0:

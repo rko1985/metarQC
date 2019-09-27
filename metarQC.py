@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import re
 
 sites = ['ALAB', 'KBHM', 'KDHN', 'KHSV', 'KMOB', 'KMGM', 'ALAS', 'PALH', 'PAMR', 'PANC', 'PANI', 'PABR', 'PABE', 'PACV', 'PASC', 'PADL', 'PAFA', 'PAGA', 'PAHO', 'PAJN', 'PAEN', 'PAKT', 'PAKN', 'PADQ', 'PAOT', 'PAOM', 'PAPG', 'PASI', 'PASM', 'PAUN', 'PADU', 'PAVD', 'PAWG', 'PAYA', 'ARIZ', 'KIFP', 'KFLG', 'KGCN', 'KIWA', 'KPGA', 'KPHX', 'KTUS', 'KNYL', 'MCAS', 'ARKA', 'KXNA', 'KFSM', 'KLIT', 'KTXK', 'CALI', 'KACV', 'KBFL', 'KBUR', 'KFAT', 'KLGB', 'KLAX', 'KMMH', 'KMRY', 'KOAK', 'KONT', 'KPSP', 'KRDD', 'KSMF', 'KSAN', 'KSFO', 'KSJC', 'KSBP', 'KSNA', 'KSBA', 'KSMX', 'KSTS', 'KSCK', 'COLO', 'KASE', 'KCOS', 'KDEN', 'KDRO', 'KEGE', 'KGJT', 'KGUC', 'KHDN', 'KMTJ', 'CONN', 'KBDL', 'KHVN', 'DELA', 'KILG', 'FLOR', 'KDAB', 'KFLL', 'KRSW', 'KGNV', 'KJAX', 'KEYW', 'KMLB', 'KMIA', 'KMCO', 'KSFB', 'KECP', 'KPNS', 'KPGD', 'KSRQ', 'KSGJ', 'KPIE', 'KTLH', 'KTPA', 'KVPS', 'KPBI', 'GEOR', 'KABY', 'KATL', 'KAGS', 'KBQK', 'KCSG', 'KSAV', 'KVLD', 'HAWA', 'PHTO', 'PHNL', 'PHOG', 'PHKO', 'PHMK', 'PHNY', 'PHLI', 'IDAH', 'KBOI', 'KSUN', 'KIDA', 'KLWS', 'KPIH', 'KTWF', 'ILLI', 'KBLV', 'KBMI', 'KCMI', 'KORD', 'KMDW', 'KMWA', 'KMLI', 'KPIA', 'KUIN', 'KRFD', 'KSPI', 'INDI', 'KEVV', 'KFWA', 'KIND', 'KSBN', 'IOWA', 'KCID', 'KDSM', 'KDBQ', 'KSUX', 'KALO', 'KANS', 'KGCK', 'KMHK', 'KFOE', 'KICT', 'KENT', 'KCVG', 'KLEX', 'KSDF', 'KOWB', 'KPAH', 'LOUI', 'KAEX', 'KBTR', 'KLFT', 'KLCH', 'KMLU', 'KMSY', 'KSHV', 'MAIN', 'KBGR', 'KPWM', 'KPQI', 'KRKD', 'MARY', 'KBWI', 'KHGR', 'KSBY', 'MASS', 'KBOS', 'KHYA', 'KACK', 'KPVC', 'KMVY', 'KORH', 'MICH', 'KAPN', 'KDTW', 'KESC', 'KFNT', 'KGRR', 'KCMX', 'KIMT', 'KAZO', 'KLAN', 'KSAW', 'KMKG', 'KPLN', 'KMBS', 'KCIU', 'KTVC', 'MINN', 'KBJI', 'KBRD', 'KDLH', 'KHIB', 'KINL', 'KMSP', 'KRST', 'KSTC', 'MISS', 'KGTR', 'KGPT', 'KJAN', 'MISS', 'KCOU', 'KJLN', 'KMCI', 'KSGF', 'KSTL', 'MONT', 'KBIL', 'KBZN', 'KBTM', 'KGTF', 'KHLN', 'KGPI', 'KMSO', 'KSDY', 'NEBR', 'KGRI', 'KLNK', 'KOMA', 'NEVA', 'KBVU', 'KEKO', 'KLAS', 'KVGT', 'KRNO', 'HAMP', 'KLEB', 'KMHT', 'KPSM', 'JERS', 'KACY', 'KTTN', 'KEWR', 'MEXI', 'KABQ', 'KHOB', 'KROW', 'KSAF', 'YORK', 'KALB', 'KBGM', 'KBUF', 'KELM', 'KFRG', 'KISP', 'KITH', 'KJFK', 'KLGA', 'KSWF', 'KIAG', 'KPBG', 'KROC', 'KSYR', 'KART', 'KHPN', 'NORT', 'KAVL', 'KCLT', 'KJQF', 'KFAY', 'KGSO', 'KPGV', 'KOAJ', 'KEWN', 'KRDU', 'KILM', 'NORT', 'KBIS', 'KDIK', 'KFAR', 'KGFK', 'KMOT', 'KISN', 'OHIO', 'KCAK', 'KLUK', 'KCLE', 'KCMH', 'KLCK', 'KDAY', 'KTOL', 'KYNG', 'OKLA', 'KLAW', 'KOKC', 'KTUL', 'OREG', 'KEUG', 'KMFR', 'KOTH', 'KPDX', 'KRDM', 'PENN', 'KABE', 'KERI', 'KMDT', 'KLBE', 'KPHL', 'KPIT', 'KUNV', 'KAVP', 'KIPT', 'RHOD', 'KBID', 'KPVD', 'KWST', 'SOUT', 'KCHS', 'KCAE', 'KFLO', 'KGSP', 'KHXD', 'KMYR', 'SOUT', 'KABR', 'KRAP', 'KFSD', 'TENN', 'KTRI', 'KCHA', 'KTYS', 'KMEM', 'KBNA', 'TEXA', 'KABI', 'KAMA', 'KAUS', 'KBPT', 'KBRO', 'KCLL', 'KCRP', 'KDAL', 'KDFW', 'KELP', 'KGRK', 'KHRL', 'KIAH', 'KHOU', 'KLRD', 'KGGG', 'KLBB', 'KMFE', 'KMAF', 'KSJT', 'KSAT', 'KTYR', 'KACT', 'KSPS', 'UTAH', 'KCDC', 'KOGD', 'KPVU', 'KSLC', 'KSGU', 'VERM', 'KBTV', 'VIRG', 'KCHO', 'KLYH', 'KPHF', 'KORF', 'KRIC', 'KROA', 'KDCA', 'KIAD', 'WASH', 'KBLI', 'KFHR', 'KPSC', 'KPUW', 'KBFI', 'KSEA', 'KGEG', 'KALW', 'KEAT', 'KYKM', 'WEST', 'KCKB', 'KCRW', 'KCKB', 'KHTS', 'KMGW', 'WISC', 'KATW', 'KEAU', 'KGRB', 'KLSE', 'KMSN', 'KMKE', 'KCWA', 'KRHI', 'WYOM', 'KCPR', 'KCOD', 'KGCC', 'KJAC', 'KLAR', 'KRKS', 'AMER', 'NSTU', 'GUAM', 'PGUM', 'NORT', 'PGSN', 'PGRO', 'PGWT', 'PUER', 'TJBQ', 'TJRV', 'TJCP', 'TJPS', 'TJSJ', 'TJIG', 'TJVQ', 'VIRG', 'TIST', 'TISX']
-#sites = ['PHNL']
+#sites = ['KUNV']
 
 for site in sites:
     
@@ -15,12 +15,18 @@ for site in sites:
 
     for metar in metars:
 
+        metarsplit = ['','']
+
         if("RMK" in metar.text):
             metarsplit = metar.text.split("RMK") #splitting before and after remarks
             metarsplit[0] = " ".join(metarsplit[0].split()[1:]) #getting rid of station ID
+            
+        if "RMK" not in metar.text: #if there is no RMK in metar
+            metarsplit[0] = metar.text
+            metarsplit[1] = ''
         
         ##WARNINGS
-        'if "CLR" in metar.text:        
+        '''if "CLR" in metar.text:        
             print("Warning, CLR in metar " + metar.text)
             
         if "TS" in metarsplit[0]:
@@ -95,7 +101,7 @@ for site in sites:
 
         #Missiny sky condition
         if (len(clrs) == 0 and len(fews) == 0 and len(scts) == 0 and len(bkns) == 0 and len(ovcs) == 0):
-            print("ERROR: missing sky condition " + metar.text)
+            print("ERROR: missing sky condition " + metar.text)'''
 
         #TS in present wx but no CB
         if "TS" in metarsplit[0]:
@@ -132,6 +138,10 @@ for site in sites:
                 if ltg_errors[0] == 0 or ltg_errors[1] == 0 or ltg_errors[2] == 0 or ltg_errors[3] == 0 or ltg_errors[4] == 0:
                     print("Error in LTG remark " + metar.text)
                     ltg_errors = [0,0,0,0,0,0,0]
+                if "TS" in metarsplit[0]:
+                    print("LTG DSNT, TS in present wx " + metar.text)
+                if "CB" in metarsplit[0]:
+                    print("LTG DSNT, CB in cloud layer " + metar.text)
 
             #OHD lighting[0] length should be 7
             if(len(lightningOHD) > 0):
@@ -151,6 +161,10 @@ for site in sites:
                 if ltg_errors[0] == 0 or ltg_errors[1] == 0 or ltg_errors[2] == 0 or ltg_errors[3] == 0 or ltg_errors[4] == 0:
                     print("Error in LTG remark " + metar.text)
                     ltg_errors = [0,0,0,0,0,0,0]
+                if "TS" not in metarsplit[0]:
+                    print("LTG OHD, TS not in present wx " + metar.text)
+                if "CB" not in metarsplit[0]:
+                    print("LTG OHD, CB not in cloud layer " + metar.text)
 
             #VC lightning[0] should be length 9
             if(len(lightningVC) > 0):
@@ -174,6 +188,10 @@ for site in sites:
                 if ltg_errors[0] == 0 or ltg_errors[1] == 0 or ltg_errors[2] == 0 or ltg_errors[3] == 0 or ltg_errors[4] == 0 or ltg_errors[5] == 0 or ltg_errors[6] == 0:
                     print("Error in LTG remark " + metar.text)                    
                     ltg_errors = [0,0,0,0,0,0,0]
+                if "TS" not in metarsplit[0]:
+                    print("LTG VC, TS not in present wx " + metar.text)
+                if "CB" not in metarsplit[0]:
+                    print("LTG VC, CB not in cloud layer " + metar.text)
 
         if "LTG" in metarsplit[1]:
             if len(lightningDSNT) == 0 and len(lightningOHD) == 0 and len(lightningVC) == 0:
