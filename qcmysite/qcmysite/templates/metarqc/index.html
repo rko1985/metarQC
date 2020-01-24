@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">    
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <title>QC My Site</title>
@@ -11,29 +13,36 @@
 <body>
     <div class="container">
         <div class="row">
-            <div class="col">
-                <h3 class="text-center">QC My Site</h3>
+            <div class="col-md-6 offset-3 text-center">
+                <h3 class="display-4 my-5"><i class="fa fa-umbrella"></i> QC My Site</h3>
             </div>            
         </div>
-        <div class="row">
-            <div class="col-md-4 mx-auto">
+        <div class="row text-center">
+            <div class="col-md-4 offset-4">
                 <form action="{% url 'index' %}" method="POST" class="form-inline">
                     <div class="form-group">
                         {% csrf_token %}
                         <input type="text" name="site" class="form-control">
-                        <input type="submit" class="ml-2 btn btn-primary">
+                        <button type="submit" class="btn btn-primary form-control"><i class="fa fa-search"></i> Run QC</button>
                     </div>
-                </form>                
+                </form>  
+            </div>            
+        </div>
+        <div class="row">
+            <div class="col text-center">
+                <small>Type in a site "ex. KLAX" or multiple sites followed by spaces "KLAX KEWR".</small>              
             </div>
         </div>
         <div class="row mt-3">
             <div class="col">
-                <ul>
+                <ul class="list-group">
                     {% for error in errors %}
-                        <li>{{ error }}</li>
+                        <li class="list-group-item">{{ error }}</li>
                     {% endfor %}
+                    {% if errors|length == 1 and 'Check complete.' in errors %}
+                        <li class="list-group-item">No errors found.</li class="list-group-item">
+                    {% endif %}
                 </ul>
-                
             </div>
         </div>
     </div>
